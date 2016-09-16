@@ -1,0 +1,30 @@
+---
+# Postgres
+#   gem install pg
+#
+#   Ensure the Pg gem is defined in your Gemfile
+#   gem 'pg'
+#
+default: &default
+  adapter: postgresql
+  database: pretty_navicamls
+  encoding: utf8
+  username: postgres
+  password:
+  pool: 5
+  min_messages: warning
+
+development:
+  <<: *default
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or corporate.
+test:
+  <<: *default
+
+sandbox:
+  <<: *default
+
+qa:
+  <<: *default
