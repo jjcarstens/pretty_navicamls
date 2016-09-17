@@ -1,6 +1,12 @@
 <div class="map-container">
   <div class="map-canvas" id="sidebar_builder"></div>
 </div>
+<br/>
+<%= form_tag(controller: "listings", action: "create") do %>
+  <%= label_tag(:navicamls_url, "Add more homes from a NavicaMLS URL") %>
+  <%= text_field_tag(:navicamls_url) %>
+  <%= submit_tag("Add Homes") %>
+<% end %>
 
 <div class="map-container" id='sidebar_container'>
   <h1>Houses</h1>

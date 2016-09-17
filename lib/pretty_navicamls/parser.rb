@@ -24,8 +24,6 @@ module PrettyNavicamls
         div if has_mls_number?(div) && has_details_container?(div)
       end
 
-      puts listings.count
-
       listings.each do |listing_html|
         listing = ::PrettyNavicamls::ListingBuilder.new(listing_html)
         ::Listing.by_mls_number(listing.mls_number).first_or_create do |l|

@@ -1,7 +1,6 @@
 require_relative 'boot'
 
 require 'rails/all'
-
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -13,7 +12,8 @@ module PrettyNavicamls
     # -- all .rb files in that directory are automatically loaded.
 
     config.eager_load = true
-    config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    config.autoload_paths += %W(#{config.root}/lib)
+    puts config.autoload_paths
     config.eager_load_paths += %W(#{config.root}/lib/pretty_navicamls)
   end
 end

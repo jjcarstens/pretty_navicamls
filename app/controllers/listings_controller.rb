@@ -7,8 +7,14 @@ class ListingsController < ::ApplicationController
   end
 
   def create
+    fail ::PrettyNavicamls::Error::UnsupportedURL unless supported_url?
     page = open(navicamls_listings_url).read
     ::PrettyNavicamls::Parser.parse_listings(page)
+    flash[:notice] = "Successfully added homes from #{navicamls_listings_url}"
+    redirect_to "/"
+  rescue ::PrettyNavicamls::Error::UnsupportedURL => e
+    flash[:error] = "#{e.message}: #{navicamls_listings_url}"
+    redirect_to "/"
   end
 
 private
@@ -26,5 +32,9 @@ private
       #{listing.address}
       #{listing.list_price}")
     end
+  end
+
+  def supported_url?
+    navicamls_listings_url.include?("navicamls")
   end
 end
