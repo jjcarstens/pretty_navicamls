@@ -28,5 +28,12 @@ module PrettyNavicamls
     def mls_number
       @mls_number ||= listing_html.at("input[name=mlsn_list]")["value"].to_i
     end
+
+    def picture_url
+      @picture_url ||= begin
+        pic_path = listing_html.at("img[class=photo-expanded]")["src"]
+        "http://www.navicamls.net/displays/#{pic_path}"
+      end
+    end
   end
 end

@@ -10,20 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160916054335) do
+ActiveRecord::Schema.define(version: 20160918070648) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "listings", force: :cascade do |t|
-    t.string  "address"
-    t.boolean "favorite"
-    t.decimal "latitude"
-    t.decimal "list_price"
-    t.decimal "longitude"
-    t.decimal "lot_size"
-    t.integer "mls_number"
-    t.integer "sq_ft"
+    t.string   "address"
+    t.boolean  "favorite"
+    t.decimal  "latitude"
+    t.decimal  "list_price"
+    t.decimal  "longitude"
+    t.decimal  "lot_size"
+    t.integer  "mls_number"
+    t.integer  "sq_ft"
+    t.string   "picture_url"
+    t.integer  "status"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.index ["mls_number"], name: "index_listings_on_mls_number", unique: true, using: :btree
   end
 

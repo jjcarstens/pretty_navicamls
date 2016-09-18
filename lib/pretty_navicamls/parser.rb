@@ -25,11 +25,13 @@ module PrettyNavicamls
       end
 
       listings.each do |listing_html|
-        listing = ::PrettyNavicamls::ListingBuilder.new(listing_html)
-        ::Listing.by_mls_number(listing.mls_number).first_or_create do |l|
-          l.address = listing.address
-          l.list_price = listing.list_price
-        end
+        parsed_listing = ::PrettyNavicamls::ListingBuilder.new(listing_html)
+        listing = ::Listing.by_mls_number(parsed_listing.mls_number).first_or_create
+        listing.update_attributes(
+          :address => parsed_listing.address,
+          :list_price => parsed_listing.list_price,
+          :picture_url => parsed_listing.picture_url
+        )
       end
     end
 

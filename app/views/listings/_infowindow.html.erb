@@ -1,7 +1,8 @@
 <div>
-  <%= @listing.mls_number %>
+  <strong><%= listing.mls_number %></strong><br />
+  <img height='165' width='220' src='<%= listing.picture_url %>'></img>
   <br/>
-  <%= @listing.address %>
+  <%= number_to_currency(listing.list_price) %>
   <br/>
-  <%= number_to_currency(@listing.list_price) %>
+  <%= listing.address %>
 </div>
