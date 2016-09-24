@@ -5,4 +5,6 @@
   <%= number_to_currency(listing.list_price) %>
   <br/>
   <%= listing.address %>
+  <br />
+  <%= link_to "View in Navica", listing.navica_url, :target => "_blank" %>
 </div>

@@ -10,12 +10,13 @@ class Listing < ActiveRecord::Base
   # Callbacks
   #
   after_validation :geocode, :if => :address_changed?
-  after_initialize :constructor
+  after_create :constructor
 
   enum :status => {
     :created => 0,
-    :toured => 1,
-    :not_interested => 2,
+    :queued => 1,
+    :toured => 2,
+    :not_interested => 3,
   }
 
   ##
@@ -27,4 +28,18 @@ class Listing < ActiveRecord::Base
     self.status = ::Listing.statuses[:created]
   end
 
+  def pin_url
+    return "https://www.emojibase.com/resources/img/emojis/apple/x1f389.png.pagespeed.ic.FkjckyE3hU.png" if favorite?
+
+    case status
+    when "created"
+      "http://maps.google.com/mapfiles/ms/icons/green.png"
+    when "queued"
+      "http://maps.google.com/mapfiles/ms/icons/yellow.png"
+    when "toured"
+      "http://maps.google.com/mapfiles/ms/icons/blue.png"
+    when "not_interested"
+      "http://maps.google.com/mapfiles/ms/icons/red.png"
+    end
+  end
 end

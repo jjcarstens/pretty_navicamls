@@ -5,18 +5,20 @@ module PrettyNavicamls
     ##
     # Class methods
     #
-    def self.parse_listings(page)
-      parser = self.new(page)
+    def self.parse_listings(url)
+      parser = self.new(url)
       parser.parse_and_create_listings
     end
 
     ##
     # Instance methods
     #
-    attr_reader :doc
+    attr_reader :doc, :navica_url
 
-    def initialize(page)
+    def initialize(url)
+      page = open(url).read
       @doc = ::Nokogiri::HTML.parse(page)
+      @navica_url = url
     end
 
     def parse_and_create_listings
@@ -25,13 +27,9 @@ module PrettyNavicamls
       end
 
       listings.each do |listing_html|
-        parsed_listing = ::PrettyNavicamls::ListingBuilder.new(listing_html)
+        parsed_listing = ::PrettyNavicamls::ListingBuilder.new(listing_html, navica_url)
         listing = ::Listing.by_mls_number(parsed_listing.mls_number).first_or_create
-        listing.update_attributes(
-          :address => parsed_listing.address,
-          :list_price => parsed_listing.list_price,
-          :picture_url => parsed_listing.picture_url
-        )
+        listing.update_attributes(parsed_listing.attributes)
       end
     end
 
