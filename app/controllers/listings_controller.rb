@@ -9,8 +9,8 @@ class ListingsController < ::ApplicationController
 
   def create
     fail ::PrettyNavicamls::Error::UnsupportedURL unless supported_url?
-    ::PrettyNavicamls::Parser.parse_listings(navicamls_listings_url)
-    flash[:notice] = "Successfully added homes from #{navicamls_listings_url}"
+    parsed_listings_count = ::PrettyNavicamls::Parser.parse_listings(navicamls_listings_url)
+    flash[:notice] = "Successfully added #{parsed_listings_count} homes from #{navicamls_listings_url}"
     redirect_to "/"
   rescue ::PrettyNavicamls::Error::UnsupportedURL => e
     flash[:error] = "#{e.message}: #{navicamls_listings_url}"
@@ -18,7 +18,6 @@ class ListingsController < ::ApplicationController
   end
 
   def show
-    response.headers.delete "X-Frame-Options"
   end
 
 private

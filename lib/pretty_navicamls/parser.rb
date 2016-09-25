@@ -31,6 +31,9 @@ module PrettyNavicamls
         listing = ::Listing.by_mls_number(parsed_listing.mls_number).first_or_create
         listing.update_attributes(parsed_listing.attributes)
       end
+
+      # Just return the number of successful listings added
+      listings.count
     end
 
   private
