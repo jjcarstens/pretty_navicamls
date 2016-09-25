@@ -10,7 +10,7 @@ class Listing < ActiveRecord::Base
   # Callbacks
   #
   after_validation :geocode, :if => :address_changed?
-  after_create :constructor
+  before_create :constructor
 
   enum :status => {
     :created => 0,

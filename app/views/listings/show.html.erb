@@ -2,11 +2,15 @@
   <%= image_tag(@listing.picture_url) %>
 </center>
 <br />
+<% ::Listing.statuses.each do |status, val|  %>
+  <%= button_to(status.titleize, update_status_listing_path(:status => status), :method => :put) %>
+<% end %>
+<br />
 <table>
   <%- @listing.attributes.sort.each do |key, value| -%>
     <tr class="<%= cycle("even", "odd") %>">
       <td>
-        <%= key.humanize %>
+        <%= key.titleize %>
       </td>
       <td>
         <%= value %>

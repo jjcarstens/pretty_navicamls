@@ -1,7 +1,7 @@
 require 'open-uri'
 
 class ListingsController < ::ApplicationController
-  before_action :find_listing, :only => [:show]
+  before_action :find_listing, :only => [:show, :update_status]
   def index
     @listings = ::Listing.all
     @listings_map_hash = generate_listings_map_hash
@@ -18,6 +18,12 @@ class ListingsController < ::ApplicationController
   end
 
   def show
+  end
+
+  def update_status
+    @listing.update_attributes(:status => status_param)
+    flash[:ok] = "Status updated: #{status_param}"
+    redirect_to :back
   end
 
 private
@@ -48,6 +54,10 @@ private
       marker.title("#{listing.mls_number} | #{listing.address}")
       marker.infowindow render_to_string(:partial => "infowindow.html.erb", :locals => { :listing => listing}).gsub(/\n/, '')
     end
+  end
+
+  def status_param
+    params.require(:status)
   end
 
   def supported_url?

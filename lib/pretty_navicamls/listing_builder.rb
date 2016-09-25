@@ -63,7 +63,7 @@ module PrettyNavicamls
     def zillow_url
       @zillow_url ||= begin
         return nil unless defined?(ZILLOW_API_URL)
-        response = ::HTTPClient.get("#{ZILLOW_API_URL}&address=#{address}&citystatezip=#{zip_code}")
+        response = ::HTTPClient.get("#{ZILLOW_API_URL}&address=#{address.gsub("#{zip_code}", "")}&citystatezip=#{zip_code}")
         home_details = ::Nokogiri::XML.parse(response.body)
         home_details.at("homedetails").text
       end
