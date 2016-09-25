@@ -6,5 +6,11 @@
   <br/>
   <%= listing.address %>
   <br />
-  <%= link_to "View in Navica", listing.navica_url, :target => "_blank" %>
+  <%= link_to "Details", listing_path(listing.mls_number), :target => "_blank" %>
+  <% if listing.navica_url  %>
+    | <%= link_to "Navica", listing.navica_url, :target => "_blank" %>
+  <% end %>
+  <% if listing.zillow_url %>
+    | <%= link_to "Zillow", listing.zillow_url, :target => "_blank" %>
+  <% end %>
 </div>

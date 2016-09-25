@@ -26,19 +26,19 @@
    font-weight: bold;
  }
 
- .map-container {
-    height: 400px;
-    border-radius: 16px 16px;
-    border-color: #fff;
-    border-style: solid;
-    box-shadow: 2px 2px 10px #B1B1B1;
-    margin-top: 25px;
-    border-width: 7px;
-  }
-  .map-canvas {
-    height: 384px;
-    width: 100%;
-  }
+.map-container {
+  height: 400px;
+  border-radius: 16px 16px;
+  border-color: #fff;
+  border-style: solid;
+  box-shadow: 2px 2px 10px #B1B1B1;
+  margin-top: 25px;
+  border-width: 7px;
+}
+.map-canvas {
+  height: 384px;
+  width: 100%;
+}
 
 .warning {
   color: #c09853;
@@ -62,4 +62,14 @@
   color: #3a87ad;
   background-color: #d9edf7;
   border-color: #bce8f1;
+}
+
+.even
+{
+    background: #ffffff;
+}
+
+.odd
+{
+    background: #e6e6e6;
 }

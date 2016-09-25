@@ -1,3 +1,5 @@
+require "httpclient"
+
 module PrettyNavicamls
   class ListingBuilder
     attr_reader :listing_html, :navica_url
@@ -29,7 +31,8 @@ module PrettyNavicamls
         :address => address,
         :list_price => list_price,
         :navica_url => navica_url,
-        :picture_url => picture_url
+        :picture_url => picture_url,
+        :zillow_url => zillow_url
       }
     end
 
@@ -55,6 +58,19 @@ module PrettyNavicamls
         pic_path = listing_html.at("img[class=photo-expanded]")["src"]
         "http://www.navicamls.net/displays/#{pic_path}"
       end
+    end
+
+    def zillow_url
+      @zillow_url ||= begin
+        return nil unless defined?(ZILLOW_API_URL)
+        response = ::HTTPClient.get("#{ZILLOW_API_URL}&address=#{address}&citystatezip=#{zip_code}")
+        home_details = ::Nokogiri::XML.parse(response.body)
+        home_details.at("homedetails").text
+      end
+    end
+
+    def zip_code
+      address.split.last
     end
   end
 end

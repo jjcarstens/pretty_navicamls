@@ -1,0 +1,17 @@
+
+<iframe src="http://www.zillow.com/homedetails/6545-E-Panorama-Dr-Idaho-Falls-ID-83401/76922911_zpid/" width="100%"></iframe>
+<center>
+  <%= image_tag(@listing.picture_url) %>
+</center>
+<table>
+  <%- @listing.attributes.sort.each do |key, value| -%>
+    <tr class="<%= cycle("even", "odd") %>">
+      <td>
+        <%= key.humanize %>
+      </td>
+      <td>
+        <%= value %>
+      </td>
+    </tr>
+  <%- end -%>
+</table>

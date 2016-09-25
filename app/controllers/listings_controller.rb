@@ -1,6 +1,7 @@
 require 'open-uri'
 
 class ListingsController < ::ApplicationController
+  before_action :find_listing, :only => [:show]
   def index
     @listings = ::Listing.all
     @listings_map_hash = generate_listings_map_hash
@@ -16,7 +17,19 @@ class ListingsController < ::ApplicationController
     redirect_to "/"
   end
 
+  def show
+    response.headers.delete "X-Frame-Options"
+  end
+
 private
+
+  def find_listing
+    @listing = ::Listing.by_mls_number(mls_number).first
+  end
+
+  def mls_number
+    params.require(:id)
+  end
 
   def navicamls_listings_url
     params.require(:navicamls_url)

@@ -32,6 +32,7 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'geocoder'
 gem 'gmaps4rails'
+gem 'httpclient'
 gem 'nokogiri'
 
 group :development, :test do
