@@ -19,10 +19,18 @@ module PrettyNavicamls
 
     def property_attributes
       listing_html.css("#expanded-label").each_with_object({}) do |element, hash|
+        begin
         attribute = element.text.parameterize.underscore
-        value = element.next.text.split(/\r?\n/).last
+        value = element.next
+                        .text
+                        .encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
+                        .split(/\r?\n/)
+                        .last
 
         hash[attribute.to_sym] = value
+        rescue => e
+          byebug
+        end
       end
     end
 
