@@ -28,3 +28,6 @@ sandbox:
 
 qa:
   <<: *default
+
+production:
+  <<: *default
