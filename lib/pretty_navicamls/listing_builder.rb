@@ -19,7 +19,6 @@ module PrettyNavicamls
 
     def property_attributes
       listing_html.css("#expanded-label").each_with_object({}) do |element, hash|
-        begin
         attribute = element.text.parameterize.underscore
         value = element.next
                         .text
@@ -28,9 +27,6 @@ module PrettyNavicamls
                         .last
 
         hash[attribute.to_sym] = value
-        rescue => e
-          byebug
-        end
       end
     end
 
@@ -71,8 +67,11 @@ module PrettyNavicamls
     def zillow_url
       @zillow_url ||= begin
         return nil unless defined?(ZILLOW_API_URL)
-        response = ::HTTPClient.get("#{ZILLOW_API_URL}&address=#{address.gsub("#{zip_code}", "")}&citystatezip=#{zip_code}")
+        response = ::HTTPClient.get("#{ZILLOW_API_URL}&address=#{address.gsub("#{zip_code}", "").strip}&citystatezip=#{zip_code}")
         home_details = ::Nokogiri::XML.parse(response.body)
+
+        return nil if home_details.at("homedetails").blank?
+
         home_details.at("homedetails").text
       end
     end
