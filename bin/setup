@@ -19,8 +19,14 @@ chdir APP_ROOT do
   system('bundle check') || system!('bundle install')
 
   puts "\n== Copying sample files =="
-  unless File.exist?('config/database.yml')
-    cp 'config/database.yml.sample', 'config/database.yml'
+  sample_files = %w(cable database google_api secrets zillow_api)
+  sample_files.each do |file_name|
+    if File.exist?("config/#{file_name}.yml")
+      puts "#{file_name}.yml exists"
+    else
+      puts "-> Creating #{file_name}.yml"
+      cp "config/#{file_name}.yml.sample", "config/#{file_name}.yml"
+    end
   end
 
   puts "\n== Preparing database =="
