@@ -1,14 +1,24 @@
+<div id="legend" style="text-align:right;">
+  <% pins_for_legend.each do |pin| %>
+  <span><img src="<%= pin[:icon] %>"/> <%= pin[:name] %></span>
+  <% end %>
+</div>
+
 <div class="map-container">
   <div class="map-canvas" id="sidebar_builder"></div>
 </div>
 <br/>
-<%= form_tag(controller: "listings", action: "create") do %>
+
+<div>
+  <%= form_tag(controller: "listings", action: "create") do %>
   <%= label_tag(:navicamls_url, "Add more homes from a NavicaMLS URL") %>
   <%= text_field_tag(:navicamls_url) %>
   <%= submit_tag("Add Homes") %>
-<% end %>
+  <% end %>
+</div>
 
-<div class="map-container" id='sidebar_container'>
+
+<div id='sidebar_container'>
   <h1>Houses</h1>
 </div>
 
@@ -38,8 +48,6 @@
   handler = Gmaps.build('Google');
   handler.buildMap({ internal: {id: 'sidebar_builder'}}, function(){
     var json_array = <%= raw @listings_map_hash.to_json %>;
-
-    console.log(json_array)
 
     var markers = handler.addMarkers(json_array);
 
