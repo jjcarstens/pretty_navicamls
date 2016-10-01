@@ -1,6 +1,8 @@
 class Listing < ActiveRecord::Base
   geocoded_by :address
 
+  MARKER_URL = "http://maps.google.com/mapfiles/ms/icons/".freeze
+
   ##
   # Validations
   #
@@ -10,6 +12,7 @@ class Listing < ActiveRecord::Base
   # Callbacks
   #
   after_validation :geocode, :if => :address_changed?
+  after_validation :set_price_change, :if => :list_price_changed?
   before_create :constructor
 
   enum :status => {
@@ -17,6 +20,7 @@ class Listing < ActiveRecord::Base
     :queued => 1,
     :toured => 2,
     :not_interested => 3,
+    :price_change => 4
   }
 
   ##
@@ -33,13 +37,22 @@ class Listing < ActiveRecord::Base
 
     case status
     when "created"
-      "http://maps.google.com/mapfiles/ms/icons/green.png"
+      "#{MARKER_URL}green.png"
     when "queued"
-      "http://maps.google.com/mapfiles/ms/icons/yellow.png"
+      "#{MARKER_URL}yellow.png"
     when "toured"
-      "http://maps.google.com/mapfiles/ms/icons/blue.png"
+      "#{MARKER_URL}blue.png"
     when "not_interested"
-      "http://maps.google.com/mapfiles/ms/icons/red.png"
+      "#{MARKER_URL}red.png"
+    when "price_change"
+      "#{MARKER_URL}purple.png"
     end
+  end
+
+private
+
+  def set_price_change
+    self.status = ::Listing.statuses[:price_change]
+    self.list_price_change_amount = list_price - list_price_was
   end
 end

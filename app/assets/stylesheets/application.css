@@ -73,3 +73,11 @@
 {
     background: #e6e6e6;
 }
+
+.decreasedPrice {
+  color: #b94a48;
+}
+
+.increasedPrice {
+  color: #468847;
+}
