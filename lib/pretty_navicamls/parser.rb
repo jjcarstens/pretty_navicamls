@@ -26,14 +26,15 @@ module PrettyNavicamls
         div if has_mls_number?(div) && has_details_container?(div)
       end
 
+      invalid_attributes = []
       listings.each do |listing_html|
         parsed_listing = ::PrettyNavicamls::ListingBuilder.new(listing_html, navica_url)
         listing = ::Listing.by_mls_number(parsed_listing.mls_number).first_or_create
         listing.update_attributes(parsed_listing.attributes)
+        invalid_attributes << parsed_listing.invalid_attributes
       end
 
-      # Just return the number of successful listings added
-      listings.count
+      { :successful => listings.count, :invalid_attributes => invalid_attributes }
     end
 
   private
