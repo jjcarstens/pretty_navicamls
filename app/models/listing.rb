@@ -15,6 +15,14 @@ class Listing < ActiveRecord::Base
   after_validation :set_price_change, :if => :list_price_changed?
   before_create :constructor
 
+  PIN_COLORS_FROM_STATUS = {
+    "created" => "green",
+    "queued" => "yellow",
+    "toured" => "blue",
+    "not_interested" => "red",
+    "price_change" => "purple"
+  }
+
   enum :status => {
     :created => 0,
     :queued => 1,
@@ -34,19 +42,8 @@ class Listing < ActiveRecord::Base
 
   def pin_url
     return "https://www.emojibase.com/resources/img/emojis/apple/x1f389.png.pagespeed.ic.FkjckyE3hU.png" if favorite?
-
-    case status
-    when "created"
-      "#{MARKER_URL}green.png"
-    when "queued"
-      "#{MARKER_URL}yellow.png"
-    when "toured"
-      "#{MARKER_URL}blue.png"
-    when "not_interested"
-      "#{MARKER_URL}red.png"
-    when "price_change"
-      "#{MARKER_URL}purple.png"
-    end
+    color = PIN_COLORS_FROM_STATUS[status]
+    "#{MARKER_URL}#{color}.png"
   end
 
 private
