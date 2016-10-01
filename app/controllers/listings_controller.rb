@@ -9,8 +9,14 @@ class ListingsController < ::ApplicationController
 
   def create
     fail ::PrettyNavicamls::Error::UnsupportedURL unless supported_url?
-    parsed_listings_count = ::PrettyNavicamls::Parser.parse_listings(navicamls_listings_url)
-    flash[:notice] = "Successfully added #{parsed_listings_count} homes from #{navicamls_listings_url}"
+    
+    parser_results = ::PrettyNavicamls::Parser.parse_listings(navicamls_listings_url)
+    flash[:notice] = "Successfully added #{parser_results[:successful]} homes from #{navicamls_listings_url}"
+
+    if parser_results[:invalid_attributes].present?
+      flash[:warning] = "Invalid Attributes found: #{parser_results[:invalid_attributes].uniq.join(", ")}"
+    end
+
     redirect_to "/"
   rescue ::PrettyNavicamls::Error::UnsupportedURL => e
     flash[:error] = "#{e.message}: #{navicamls_listings_url}"

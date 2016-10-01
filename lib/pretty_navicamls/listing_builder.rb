@@ -2,10 +2,11 @@ require "httpclient"
 
 module PrettyNavicamls
   class ListingBuilder
-    attr_reader :listing_html, :navica_url
+    attr_reader :listing_html, :navica_url, :invalid_attributes
 
     def initialize(html, url)
       @listing_html = html
+      @invalid_attributes = []
       @navica_url = url
     end
 
@@ -20,6 +21,12 @@ module PrettyNavicamls
     def property_attributes
       listing_html.css("#expanded-label").each_with_object({}) do |element, hash|
         attribute = element.text.parameterize.underscore
+
+        if ::Listing.column_names.exclude?(attribute)
+          @invalid_attributes << attribute
+          next
+        end
+
         value = element.next
                         .text
                         .encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
