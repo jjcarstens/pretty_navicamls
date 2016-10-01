@@ -11,4 +11,8 @@ module ApplicationHelper
       "bg-warning"
     end
   end
+
+  def price_change_color(price_change)
+    price_change.negative? ? "decreasedPrice" : "incresedPrice"
+  end
 end

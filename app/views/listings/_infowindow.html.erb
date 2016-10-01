@@ -1,8 +1,12 @@
 <div>
-  <strong><%= listing.mls_number %></strong><br />
+  <strong><%= listing.mls_number %></strong>
+  <br />
   <img height='165' width='220' src='<%= listing.picture_url %>'></img>
   <br/>
   <%= number_to_currency(listing.list_price) %>
+  <% if listing.list_price_change_amount %>
+  <span class="<%= price_change_color(listing.list_price_change_amount) %>"> <%= listing.list_price_change_amount %></span>
+  <% end %>
   <br/>
   <%= listing.address %>
   <br />
