@@ -1,11 +1,14 @@
 class Listing < ActiveRecord::Base
   geocoded_by :address
+  has_attached_file :cover_photo, :styles => { :thumb => "165x220>" }, :validate_media_type => false
 
   MARKER_URL = "http://maps.google.com/mapfiles/ms/icons/".freeze
 
   ##
   # Validations
   #
+  # # Validate content type
+  validates_attachment_content_type :cover_photo, content_type: /\Aimage/
   validates :mls_number, :presence => true
 
   ##
@@ -38,6 +41,11 @@ class Listing < ActiveRecord::Base
 
   def constructor
     self.status = ::Listing.statuses[:created]
+  end
+
+  def cover_photo_remote_url=(url_value)
+    self.cover_photo = URI.parse(url_value)
+    super
   end
 
   def pin_url

@@ -48,6 +48,7 @@ private
 
   def generate_listings_map_hash
     ::Gmaps4rails.build_markers(@listings) do |listing, marker|
+      status_color = ::Listing::PIN_COLORS_FROM_STATUS[listing.status]
       marker.lat(listing.latitude)
       marker.lng(listing.longitude)
       marker.picture({
@@ -57,7 +58,7 @@ private
         :scaledWidth => "32", # Scaled width is half of the retina resolution; optional
         :scaledHeight => "32", # Scaled width is half of the retina resolution; optional
       })
-      marker.title("#{listing.mls_number} | #{listing.address}")
+      marker.title("[ <span style='color:#{status_color}'>#{listing.mls_number}</span> ] #{listing.address}")
       marker.infowindow render_to_string(:partial => "infowindow.html.erb", :locals => { :listing => listing}).gsub(/\n/, '')
     end
   end

@@ -13,7 +13,6 @@ module PrettyNavicamls
 
     config.eager_load = true
     config.autoload_paths += %W(#{config.root}/lib)
-    puts config.autoload_paths
     config.eager_load_paths += %W(#{config.root}/lib/pretty_navicamls)
   end
 end

@@ -31,6 +31,7 @@ gem 'geocoder'
 gem 'gmaps4rails'
 gem 'httpclient'
 gem 'nokogiri'
+gem "paperclip", "~> 5.0.0"
 
 group :development, :test do
   gem 'pry'
