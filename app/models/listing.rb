@@ -49,6 +49,7 @@ class Listing < ActiveRecord::Base
 private
 
   def set_price_change
+    return if list_price.blank? || list_price_was.blank?
     self.status = ::Listing.statuses[:price_change]
     self.list_price_change_amount = list_price - list_price_was
   end

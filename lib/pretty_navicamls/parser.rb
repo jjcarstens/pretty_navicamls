@@ -34,7 +34,7 @@ module PrettyNavicamls
         invalid_attributes << parsed_listing.invalid_attributes
       end
 
-      { :successful => listings.count, :invalid_attributes => invalid_attributes }
+      { :successful => listings.count, :invalid_attributes => invalid_attributes.flatten.uniq.join(", ") }
     end
 
   private
