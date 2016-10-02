@@ -22,3 +22,7 @@
 
 config/*.yml
 public/*
+
+## Ignore Deployment details. Run bundle exec cap install if you would like to setup deployment
+Capfile
+*deploy*
