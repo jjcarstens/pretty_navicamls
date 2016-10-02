@@ -40,6 +40,11 @@
   width: 100%;
 }
 
+a:hover {
+  color: blue;
+  text-decoration:underline;
+}
+
 .warning {
   color: #c09853;
   background-color: #fcf8e3;

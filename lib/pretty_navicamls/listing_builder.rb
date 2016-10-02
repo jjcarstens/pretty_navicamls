@@ -42,7 +42,7 @@ module PrettyNavicamls
         :address => address,
         :list_price => list_price,
         :navica_url => navica_url,
-        :picture_url => picture_url,
+        :cover_photo_remote_url => cover_photo_remote_url,
         :zillow_url => zillow_url
       }
     end
@@ -64,8 +64,8 @@ module PrettyNavicamls
       end
     end
 
-    def picture_url
-      @picture_url ||= begin
+    def cover_photo_remote_url
+      @cover_photo_remote_url ||= begin
         pic_path = listing_html.at("img[class=photo-expanded]")["src"]
         "http://www.navicamls.net/displays/#{pic_path}"
       end

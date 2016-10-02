@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161001184810) do
+ActiveRecord::Schema.define(version: 20161002211015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20161001184810) do
     t.float    "apx_acreage"
     t.integer  "mls_number"
     t.integer  "apx_total_sqft"
-    t.string   "picture_url"
+    t.string   "cover_photo_remote_url"
     t.integer  "status"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
@@ -74,6 +74,10 @@ ActiveRecord::Schema.define(version: 20161001184810) do
     t.string   "navica_url"
     t.string   "zillow_url"
     t.float    "list_price_change_amount"
+    t.string   "cover_photo_file_name"
+    t.string   "cover_photo_content_type"
+    t.integer  "cover_photo_file_size"
+    t.datetime "cover_photo_updated_at"
     t.index ["mls_number"], name: "index_listings_on_mls_number", unique: true, using: :btree
   end
 
