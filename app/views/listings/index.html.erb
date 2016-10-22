@@ -28,6 +28,10 @@
     return ("<li><a>" + json.marker_title + "</a></li>");
   };
 
+  function createSidebarTitle(status){
+    return ("<h3>" + status + "</h3>");
+  }
+
   function bindLiToMarker($li, marker){
     $li.on('click', function(){
       handler.getMap().setZoom(14);
@@ -38,21 +42,28 @@
   };
 
   function createSidebar(json_array){
-    _.each(json_array, function(json){
-      var $li = $( createSidebarLi(json) );
-      $li.appendTo('#sidebar_container');
-      bindLiToMarker($li, json.marker);
+    _.each(json_array, function(listings_json, status){
+      var $title = $( createSidebarTitle(status) );
+      $title.appendTo('#sidebar_container');
+      _.each(listings_json, function(json){
+        var $li = $( createSidebarLi(json) );
+        $li.appendTo('#sidebar_container');
+        bindLiToMarker($li, json.marker);
+      });
     });
   };
 
   handler = Gmaps.build('Google');
   handler.buildMap({ internal: {id: 'sidebar_builder'}}, function(){
     var json_array = <%= raw @listings_map_hash.to_json %>;
+    var listings_array = <%= raw @listings_map_hash.map { |k,v| v }.flatten.to_json %>;
 
-    var markers = handler.addMarkers(json_array);
+    var markers = handler.addMarkers(listings_array);
 
-    _.each(json_array, function(json, index){
-      json.marker = markers[index];
+    _.each(json_array, function(listings_json, status){
+      _.each(listings_json, function(json, index){
+        json.marker = markers[index];
+      });
     });
 
     createSidebar(json_array);

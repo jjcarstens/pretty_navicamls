@@ -37,7 +37,8 @@ class Listing < ActiveRecord::Base
   ##
   # Scopes
   #
-  scope :by_mls_number, lambda { |*mls_numbers| where(:mls_number => mls_numbers.compact.uniq) }
+  scope :by_mls_number, lambda { |*mls_numbers| where(:mls_number => mls_numbers.flatten.compact.uniq) }
+  scope :by_status, lambda { |*statuses| where(:status => statuses.flatten.compact.uniq) }
 
   def constructor
     self.status = ::Listing.statuses[:created]
