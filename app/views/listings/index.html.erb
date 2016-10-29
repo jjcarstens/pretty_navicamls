@@ -60,9 +60,11 @@
 
     var markers = handler.addMarkers(listings_array);
 
+    var incrementer = 0;
     _.each(json_array, function(listings_json, status){
       _.each(listings_json, function(json, index){
-        json.marker = markers[index];
+        json.marker = markers[incrementer];
+        incrementer++;
       });
     });
 
